@@ -1,7 +1,10 @@
 import server from './config/dev-server'
+// import boardRoutes from './routes/board-route'
 
 let mongoose = require('mongoose')
+mongoose.Promise = global.Promise;
 let connection = mongoose.connection;
+
 
 
 // Establishes MongoDb Connection
@@ -17,3 +20,5 @@ connection.once('open', function () {
 		console.log(`Running on port: ${process.env.PORT}`);
 	})
 });
+
+// server.use(boardRoutes)

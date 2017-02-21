@@ -4,13 +4,11 @@ let mongoose = require('mongoose')
 let ObjectId = mongoose.Schema.ObjectId
 
 var schema = new mongoose.Schema({
-	name: { type: String, required: true },
-	description: { type: String },
+	body: { type: String, required: true },
 	created: { type: Number, default: Date.now() },
 	creatorId: {type:ObjectId, ref:models.user.name},
 	// Relations
-	boardId: { type: ObjectId, ref: models.board, required: true },
-	cards:[{type: ObjectId, ref:models.card}]
+	cardId: { type: ObjectId, ref: models.card.name, required: true }
 });
 
-module.exports = mongoose.model(models.list.name, schema);
+module.exports = mongoose.model(models.comment.name, schema);

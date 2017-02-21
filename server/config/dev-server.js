@@ -6,6 +6,7 @@ import { defaultErrorHandler, corsOptions } from './handlers'
 import api from '../models'
 import session from '../authentication/sessions'
 import Auth from '../authentication/auth'
+// import boardRoutes from '../routes/board-route'
 
 // ENABLE ROUTES IF USING SERVER SIDE ROUTING
 // import routes from './routes'
@@ -31,10 +32,13 @@ server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use('*', logger)
 server.use(Auth)
+// server.use(boardRoutes)
 
 // LOCKS API TO REQUIRE USER AUTH
 server.use(Validate)
 server.use('/api', cors(corsOptions), api)
 server.use('/', defaultErrorHandler)
+
+
 
 export default server
