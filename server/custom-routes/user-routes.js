@@ -17,6 +17,20 @@ export default {
         })
     }
   },
+  sharedBoards: {
+    path: '/sharedboards',
+    reqType: 'get',
+    method(req, res, next){
+      let action = 'Find Shared Boards'
+      console.log(req.headers)
+      Boards.find({collaborators: {$in:[req.session.uid]}})
+        .then(boards => {
+          res.send(handleResponse(action, boards))
+        }).catch(error => {
+          return next(handleResponse(action, null, error))
+        })
+    }
+  },
   userLists: {
     path: '/userlists',
     reqType: 'get',

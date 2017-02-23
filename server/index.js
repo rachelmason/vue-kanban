@@ -1,9 +1,22 @@
 import server from './config/dev-server'
-// import boardRoutes from './routes/board-route'
+
+
+
+
+
 
 let mongoose = require('mongoose')
 mongoose.Promise = global.Promise;
 let connection = mongoose.connection;
+
+
+
+// ENABLE ROUTES IF USING SERVER SIDE ROUTING
+
+
+
+
+
 
 
 

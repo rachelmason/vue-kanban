@@ -3,10 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+// import io from 'socket.io-client'
 
+// let socket = io('http://localhost:3000')
+
+// socket.on('connected', function(){
+//   console.log('shit works')
+// })
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  data:{
+    store
+  },
   router,
   template: '<App/>',
   components: { App }

@@ -6,12 +6,15 @@ import { defaultErrorHandler, corsOptions } from './handlers'
 import api from '../models'
 import session from '../authentication/sessions'
 import Auth from '../authentication/auth'
-// import boardRoutes from '../routes/board-route'
 
-// ENABLE ROUTES IF USING SERVER SIDE ROUTING
-// import routes from './routes'
+let app = express()
+let server = require('http').createServer(app)
 
-let server = express()
+
+
+
+
+
 
 function Validate(req, res, next) {
     // ONLY ALLOW GET METHOD IF NOT LOGGED IN 
@@ -27,18 +30,32 @@ function logger(req, res, next) {
 }
 
 // REGISTER MIDDLEWARE
-server.use(session)
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use('*', logger)
-server.use(Auth)
-// server.use(boardRoutes)
+app.use(session)
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use('*', logger)
+app.use('/api', cors(corsOptions))
+app.use( '*',Auth, cors(corsOptions))
+
 
 // LOCKS API TO REQUIRE USER AUTH
-server.use(Validate)
-server.use('/api', cors(corsOptions), api)
-server.use('/', defaultErrorHandler)
+app.use(Validate)
+app.use('/api', api)
+app.use('/', defaultErrorHandler)
 
+
+let io = require('socket.io')(server,{
+    origins: '*:*'
+})
+
+
+io.on('connection', function(socket){
+	socket.emit('connected',{
+		socket: socket.id,
+		message:'welcome to sockets'
+	})
+    
+})
 
 
 export default server
