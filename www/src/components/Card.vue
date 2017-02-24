@@ -1,11 +1,13 @@
 <template>
 <div class="card">
-
+    {{card.name}}
+    <h1> Random</h1>
 </div>
 </template>
 <script>
     export default {
-        name:'card'
+        name:'card',
+        props:['card']
     }
 </script>
 

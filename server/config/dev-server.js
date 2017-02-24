@@ -34,8 +34,8 @@ app.use(session)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('*', logger)
-app.use('/api', cors(corsOptions))
-app.use( '*',Auth, cors(corsOptions))
+app.use('*', cors(corsOptions))
+app.use( '/',Auth)
 
 
 // LOCKS API TO REQUIRE USER AUTH

@@ -1,7 +1,7 @@
 import axios from 'axios'
 let api = axios.create({
     baseURL: 'http://localhost:3000/api/',
-    timeout: 2000,
+    timeout: 200000,
     withCredentials: true
 })
 
@@ -13,10 +13,12 @@ api.post('http://localhost:3000/login', {
 //REGISTER ALL DATA HERE
 let state = {
     boards: [],
-    lists:[],
-    activeList:{},
+    lists: [],
+    cards: [],
+    // activeLists:[{}],
     activeBoard: {},
-    error: {}
+    error: {},
+    user: {}
 }
 
 let handleError = (err) => {
@@ -36,52 +38,78 @@ export default {
         },
 
         getBoard(id) {
-            api('boards/' + id)
+            console.log('getting board')
+            api.get('boards/' + id)
                 .then(res => {
                     state.activeBoard = res.data.data
-                }).catch(handleError)
+                    this.getBoardLists(id)
+                })
+                .catch(handleError)
+        },
+
+        getBoardLists(id) {
+            api.get('board/' + id + '/lists')
+                .then(res => {
+                    state.lists = res.data.data
+
+                    // console.log(state.lists)
+                })
+                .catch(handleError)
+        },
+        getListCards(listId, index) {
+            api.get('list/' + listId + '/cards')
+                .then(res => {
+                    state.lists[index].cards = res.data.data
+                    console.log(state.lists.cards)
+                })
+                .catch(handleError)
+            
         },
 
         addBoard(board) {
             api.post('boards/', board)
                 .then(res => {
+
                     this.getBoards()
                 })
                 .catch(handleError)
         },
 
         removeBoard(board) {
-            api.delete('boards/'+board._id)
+            api.delete('boards/' + board._id)
                 .then(res => {
                     this.getBoards()
                 })
                 .catch(handleError)
         },
-         getLists(boardId) {
-            api.get('board/'+board._id+'/lists').then(res => {
-                state.lists = res.data.data
-            }).catch(handleError)
-        },
-          getList(listId) {
-            api('lists/' + id)
+        // getList(listId) {
+        //     api('lists/' + id)
+        //         .then(res => {
+        //             state.activeList = res.data.data
+        //         }).catch(handleError)
+        // },
+        addList(newList, id) {
+            api.post('lists/', newList)
                 .then(res => {
-                    state.activeList = res.data.data
-                }).catch(handleError)
-        }, addList(list) {
-            api.post('lists/', list)
-                .then(res => {
-                    this.getLists()
+                    this.getBoard(id)
                 })
                 .catch(handleError)
         },
 
-        removeList(list) {
-            api.delete('lists/'+list._id)
-                .then(res => {
-                    this.getLists()
-                })
-                .catch(handleError)
-        },
+        addCard(newCard, id){
+            api.post('cards/', newCard)
+            .then(res =>{
+
+            })
+        }
+
+        // removeList(list) {
+        //     api.delete('lists/'+list._id)
+        //         .then(res => {
+        //             this.getLists()
+        //         })
+        //         .catch(handleError)
+        // },
 
     }
 }

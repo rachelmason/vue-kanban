@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Boards from 'components/Boards'
 import Board from 'components/Board'
+import Lists from 'components/list'
 
 Vue.use(Router)
 
@@ -15,11 +16,11 @@ export default new Router({
       path: '/boards/:id',
       name: 'Board',
       component: Board
-    },
-    {
-      path: '/board/:id/lists',
-      name: 'Lists',
-      component: Board
     }
+    
+    //   path: '/board/:id/lists',
+    //   name: 'Board',
+    //   component: Board
+    // }
   ]
 })

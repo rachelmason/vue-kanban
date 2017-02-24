@@ -1,17 +1,32 @@
 <template>
-    <div>
-        <router-link :to="'/lists/'+list._id">
-            {{list.name}}
-        </router-link><span @click="removelist(list)">x</span>
+    <div >
+        <div>
+
+        <p>{{list.name}}</p>
+
+        <Card v-for="card in list.cards" :card = "card"></Card>
+        <form class="col s12" @submit.prevent="addCard">
+            <div class="input-field col s2">
+                <input required="true" type="text" placeholder="name" v-model="newCard.name">
+            </div>
+            <button class="waves-effect waves-light btn">add</button>
+        </form>
+        </div>
+          
+    
+     
     </div>
 </template>
 <script>
     import Card from './Card'
     export default {
         name: 'list',
+        props:['list','index'],
         components: { Card },
-        mounted() {
-            this.$root.$data.store.actions.getLists(this.$route.params.id)
+     
+        mounted(){
+            
+            this.$root.$data.store.actions.getListCards(this.list._id, this.index)
         },
         computed: {
             lists() {
@@ -24,20 +39,14 @@
             },
             removeList(list) {
                 this.$root.$data.store.actions.removeList(list)
+            },
+            addCard(){
+                
             }
         }
     }
 
 </script>
 <style>
-    .list {
-        width: 20vw;
-        height: 79vh;
-        background: #A3C6C4;
-        margin: 35px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+ 
 </style>
