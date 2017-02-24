@@ -8,7 +8,9 @@
             <button class="waves-effect waves-light btn">add</button>
         </form>
         <div >
-        <List v-for="(list,index) in lists" :list="list" :index="index" class="list"> </List>
+        <List v-for="(list,index) in lists" :list="list" :index="index" class="list"> 
+             
+        </List>
 
         </div>
     </div>
@@ -23,7 +25,7 @@
                 newList: {
                     name: '',
                     description: '',
-                    boardId: this.$route.params.id,
+                    boardId: this.$route.params.id
 
 
                 }
@@ -43,9 +45,8 @@
         },
         methods: {
             addList() {
-
                 this.$root.$data.store.actions.addList(this.newList, this.newList.boardId)
-            },
+            }
         }
 
     }
@@ -55,7 +56,7 @@
 <style>
    .list {
         width: 20vw;
-        height: 20vh;
+        height: 100%;
         background: #A3C6C4;
         margin: 35px;
         border-radius: 10px;

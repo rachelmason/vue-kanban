@@ -1,7 +1,7 @@
 <template>
 <div class="card">
     {{card.name}}
-    <h1> Random</h1>
+   
 </div>
 </template>
 <script>

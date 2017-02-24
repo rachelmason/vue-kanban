@@ -43,6 +43,7 @@ export default {
                 .then(res => {
                     state.activeBoard = res.data.data
                     this.getBoardLists(id)
+
                 })
                 .catch(handleError)
         },
@@ -51,7 +52,9 @@ export default {
             api.get('board/' + id + '/lists')
                 .then(res => {
                     state.lists = res.data.data
-
+                    state.lists.forEach((list, index)=>{
+                        this.getListCards(list._id, index)
+                    })
                     // console.log(state.lists)
                 })
                 .catch(handleError)
@@ -59,7 +62,10 @@ export default {
         getListCards(listId, index) {
             api.get('list/' + listId + '/cards')
                 .then(res => {
-                    state.lists[index].cards = res.data.data
+                    let list = state.lists[index]
+                    list.cards = res.data.data
+                    Vue.set(state.lists,index, list )
+                   
                     console.log(state.lists.cards)
                 })
                 .catch(handleError)
@@ -82,6 +88,13 @@ export default {
                 })
                 .catch(handleError)
         },
+         removeList(list) {
+            api.delete('lists/' + list._id)
+                .then(res => {
+                    this.getBoardLists(board._id)
+                })
+                .catch(handleError)
+        },
         // getList(listId) {
         //     api('lists/' + id)
         //         .then(res => {
@@ -96,10 +109,10 @@ export default {
                 .catch(handleError)
         },
 
-        addCard(newCard, id){
+        addCard(newCard, listId,index){
             api.post('cards/', newCard)
             .then(res =>{
-
+                this.getListCards(listId, index)
             })
         }
 

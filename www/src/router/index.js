@@ -17,10 +17,5 @@ export default new Router({
       name: 'Board',
       component: Board
     }
-    
-    //   path: '/board/:id/lists',
-    //   name: 'Board',
-    //   component: Board
-    // }
   ]
 })
