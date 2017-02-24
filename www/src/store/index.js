@@ -13,6 +13,8 @@ api.post('http://localhost:3000/login', {
 //REGISTER ALL DATA HERE
 let state = {
     boards: [],
+    lists:[],
+    activeList:{},
     activeBoard: {},
     error: {}
 }
@@ -54,7 +56,32 @@ export default {
                     this.getBoards()
                 })
                 .catch(handleError)
-        }
+        },
+         getLists(boardId) {
+            api.get('board/'+board._id+'/lists').then(res => {
+                state.lists = res.data.data
+            }).catch(handleError)
+        },
+          getList(listId) {
+            api('lists/' + id)
+                .then(res => {
+                    state.activeList = res.data.data
+                }).catch(handleError)
+        }, addList(list) {
+            api.post('lists/', list)
+                .then(res => {
+                    this.getLists()
+                })
+                .catch(handleError)
+        },
+
+        removeList(list) {
+            api.delete('lists/'+list._id)
+                .then(res => {
+                    this.getLists()
+                })
+                .catch(handleError)
+        },
 
     }
 }

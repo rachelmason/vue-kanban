@@ -15,6 +15,11 @@ export default new Router({
       path: '/boards/:id',
       name: 'Board',
       component: Board
+    },
+    {
+      path: '/board/:id/lists',
+      name: 'Lists',
+      component: Board
     }
   ]
 })

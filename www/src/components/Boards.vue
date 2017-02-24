@@ -11,7 +11,7 @@
 </div>
            
         <ul>
-            <li v-for ="board in boards"> <router-link :to="'/boards/'+board._id">{{board.name}} </router-link> <span @click="removeBoard(board)">delete</span> </li>
+            <li v-for ="board in boards"> <router-link :to="'boards/'+board._id+'/lists'">{{board.name}} </router-link> <span @click="removeBoard(board)">x</span> </li>
 
         </ul>
     </div>
