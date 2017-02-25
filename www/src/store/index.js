@@ -88,9 +88,10 @@ export default {
                 })
                 .catch(handleError)
         },
-         removeList(list) {
+         removeList(list, index) {
             api.delete('lists/' + list._id)
                 .then(res => {
+                    state.lists.splice(index,1)
                     this.getBoardLists(board._id)
                 })
                 .catch(handleError)
