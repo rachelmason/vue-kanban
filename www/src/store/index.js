@@ -5,10 +5,6 @@ let api = axios.create({
     withCredentials: true
 })
 
-api.post('http://localhost:3000/login', {
-    email: 'user@email.com',
-    password: 'password'
-})
 
 //REGISTER ALL DATA HERE
 let state = {
@@ -18,7 +14,7 @@ let state = {
     // activeLists:[{}],
     activeBoard: {},
     error: {},
-    user: {}
+    activeUser: {}
 }
 
 let handleError = (err) => {
@@ -31,8 +27,44 @@ export default {
     state,
     //ACTIONS ARE RESPONSIBLE FOR MANAGING ALL ASYNC REQUESTS
     actions: {
+        login(e, p) {
+            debugger
+            api.post('http://localhost:3000/login',{
+                email: e,
+                password: p
+            }) 
+            .then(res => {
+                state.activeUser = res.data.data
+                console.log(state.activeUser)
+                this.getBoards()
+            }).catch(handleError)
+        },
+        register(n,e,p){  api.post('http://localhost:3000/register',{
+                name: n,
+                email: e,
+                password: p
+            }) 
+            .then(res=>{
+                this.login(e, p)
+            }).catch(handleError)
+        },
+        authenticate(){
+            api.get('http://localhost:3000/authenticate')
+            .then(res =>{
+                if(res.data.data){
+                    state.activeUser=res.data.data
+                     this.getBoards()
+                }
+            })
+
+        },
+        logout(){
+            api.delete('http://localhost:3000/logout').then(res =>{
+                state.activeUser= {}
+            })
+        },
         getBoards() {
-            api.get('boards').then(res => {
+            api.get('userboards').then(res => {
                 state.boards = res.data.data
             }).catch(handleError)
         },
@@ -52,7 +84,7 @@ export default {
             api.get('board/' + id + '/lists')
                 .then(res => {
                     state.lists = res.data.data
-                    state.lists.forEach((list, index)=>{
+                    state.lists.forEach((list, index) => {
                         this.getListCards(list._id, index)
                     })
                     // console.log(state.lists)
@@ -64,12 +96,12 @@ export default {
                 .then(res => {
                     let list = state.lists[index]
                     list.cards = res.data.data
-                    Vue.set(state.lists,index, list )
-                   
+                    Vue.set(state.lists, index, list)
+
                     console.log(state.lists.cards)
                 })
                 .catch(handleError)
-            
+
         },
 
         addBoard(board) {
@@ -88,10 +120,10 @@ export default {
                 })
                 .catch(handleError)
         },
-         removeList(list, index) {
+        removeList(list, index) {
             api.delete('lists/' + list._id)
                 .then(res => {
-                    state.lists.splice(index,1)
+                    state.lists.splice(index, 1)
                     this.getBoardLists(board._id)
                 })
                 .catch(handleError)
@@ -110,11 +142,11 @@ export default {
                 .catch(handleError)
         },
 
-        addCard(newCard, listId,index){
+        addCard(newCard, listId, index) {
             api.post('cards/', newCard)
-            .then(res =>{
-                this.getListCards(listId, index)
-            })
+                .then(res => {
+                    this.getListCards(listId, index)
+                })
         }
 
         // removeList(list) {

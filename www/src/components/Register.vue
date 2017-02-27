@@ -2,7 +2,7 @@
     <div class="container">
 
 <div class="row">
-    <form  class="col s12">
+    <form  class="col s12" @submit.prevent="register">
         <div class="input-field col s12">
             <input required="true" type="text" placeholder="Name" v-model="name" id="name">
             <label for="name">Name</label>
@@ -33,7 +33,13 @@ export default {
         password:''
 
         }
-    }
+    },
+     methods:{
+        register(){
+            this.$root.$data.store.actions.register(this.name,this.email, this.password)
+            this.$router.push('/')
+        }
+     }
 }
 
 </script>

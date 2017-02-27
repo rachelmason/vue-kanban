@@ -1,5 +1,7 @@
 <template>
     <div>
+        <div v-if="user.name">
+
         <div class="row">
             <form class="col s12" @submit.prevent="addBoard">
 
@@ -11,12 +13,17 @@
         </div>
 
         <ul>
-            <li v-for="board in boards">
+            <li v-for="board in boards" class="board">
                 <router-link :to="'boards/'+board._id">{{board.name}} </router-link>
-                <button @click="removeBoard(board)">x</button>
+                  <a class="btn-floating btn-small waves-effect waves-light" @click="removeBoard(board)"><i class="material-icons">remove</i></a>
+                
             </li>
 
         </ul>
+        </div>
+        <div v-else>
+            <h2>Please Login or register</h2>
+        </div>
     </div>
 </template>
 <script>
@@ -37,6 +44,9 @@
         computed: {
             boards() {
                 return this.$root.$data.store.state.boards
+            },
+            user() {
+                return this.$root.$data.store.state.activeUser
             }
         },
         methods: {
@@ -51,6 +61,40 @@
     }
 
 </script>
-<style>
+<style lang="scss">
+.board{
+      width: 20vw;
+        height: 100%;
+        background: #A3C6C4;
+        margin: 35px;
+        border-radius: 10px;
+        font-size: 36px;
+        font-weight: bold;
+        color: #354649;
+        a{
+            color: #354649;
+        }
+        
+}
+.btn{
+    background:#354649;
+}
+.btn:hover{
+    background:#6C7A89;
+}
+.btn:focus{
+    background:#354649;
+}
+
+.btn-floating{
+    background:#354649;
+}
+.btn-floating:hover{
+    background:#6C7A89;
+}
+.btn-floating:focus{
+    background:#354649;
+}
+
 
 </style>

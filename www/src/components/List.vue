@@ -11,7 +11,7 @@
             </div>
             <button class="waves-effect waves-light btn">add</button>
         </form>
-            <button @click="removeList">x</button>
+            <a class="btn-floating btn-small waves-effect waves-light" @click="removeList"><i class="material-icons">remove</i></a>
         </div>
           
     

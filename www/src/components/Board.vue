@@ -7,7 +7,7 @@
             </div>
             <button class="waves-effect waves-light btn">add</button>
         </form>
-        <div >
+        <div class="flex-container" >
         <List v-for="(list,index) in lists" :list="list" :index="index" class="list"> 
              
         </List>
@@ -54,16 +54,22 @@
 </script>
 
 <style>
+.flex-container{
+    width:100%;
+    display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+
+}
    .list {
         width: 20vw;
         height: 100%;
         background: #A3C6C4;
         margin: 35px;
         border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex-wrap: wrap;
+        
+        
     }
 
 </style>
